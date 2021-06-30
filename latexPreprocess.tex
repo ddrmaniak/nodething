@@ -1,0 +1,192 @@
+%-------------------------
+% Resume in Latex
+% Author : Sourabh Bajaj
+% License : MIT
+%------------------------
+
+\documentclass[letterpaper,11pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\input{glyphtounicode}
+
+\pagestyle{fancy}
+\fancyhf{} % clear all header and footer fields
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Adjust margins
+\addtolength{\oddsidemargin}{-0.5in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1in}
+\addtolength{\topmargin}{-.5in}
+\addtolength{\textheight}{1.0in}
+
+\urlstyle{same}
+
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Sections formatting
+\titleformat{\section}{
+  \vspace{-4pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
+
+% Ensure that generate pdf is machine readable/ATS parsable
+\pdfgentounicode=1
+
+%-------------------------
+% Custom commands
+\newcommand{\resumeItem}[2]{
+  \item\small{
+    \textbf{#1}{: #2 \vspace{-2pt}}
+  }
+}
+
+% Just in case someone needs a heading that does not need to be in a list
+\newcommand{\resumeHeading}[4]{
+    \begin{tabular*}{0.99\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-5pt}
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-1pt}\item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-5pt}
+}
+
+\newcommand{\resumeSubSubheading}[2]{
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \textit{\small#1} & \textit{\small #2} \\
+    \end{tabular*}\vspace{-5pt}
+}
+
+\newcommand{\resumeSubItem}[2]{\resumeItem{#1}{#2}\vspace{-4pt}}
+
+\renewcommand{\labelitemii}{$\circ$}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=*]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+
+%-------------------------------------------
+%%%%%%  CV STARTS HERE  %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+
+%----------HEADING-----------------
+\begin{tabular*}{\textwidth}{l@{\extracolsep{\fill}}r}
+  \textbf{{\Large Michael Martino2}} & Email : \href{mailto:mamartino1989@gmail.com}{mamartino1989@gmail.com}\\
+   & Mobile : +1-559-799-3572 \\
+\end{tabular*}
+
+
+%-----------OBJECTIVE-----------------
+\section{Objective}
+  {Experienced full stack software engineer seeking a position that will allow me to use my versatile skill set to solve a variety of real world problems.}
+
+%-----------EDUCATION-----------------
+\section{Education}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {Fresno State University}{Fresno, CA}
+      {Bachelor of Science, Computer Science}{Aug 2011 -- May 2014}
+  \resumeSubHeadingListEnd
+
+
+%-----------EXPERIENCE-----------------
+\section{Experience}
+  \resumeSubHeadingListStart
+
+    \resumeSubheading
+      {Tulare County Office of Education}{Visalia, CA}
+      {Software Developer III}{Dec 2018 - Present}
+      \resumeItemListStart
+        \resumeItem{MyPhoenix}
+          {MyPhoenix is an employee portal that allows viewing and download of payroll stubs, w2 forms, absences and HR information. Written with ReactJS on the front end and .NET Core MVC on the server side.}
+        \resumeItem{Other Responsibilities}
+          {The bulk of my tenure has been updating the old VB6 enterprise software that the county uses to .Net 4.8, while implementing better standards for security and maintainability.}
+      \resumeItemListEnd
+      
+% --------Multiple Positions Heading------------
+%    \resumeSubSubheading
+%     {Software Engineer I}{Oct 2014 - Sep 2016}
+%     \resumeItemListStart
+%        \resumeItem{Apache Beam}
+%          {Apache Beam is a unified model for defining both batch and streaming data-parallel processing pipelines}
+%     \resumeItemListEnd
+%    \resumeSubHeadingListEnd
+%-------------------------------------------
+
+    \resumeSubheading
+      {IQMS}{Paso Robles, CA}
+      {Software Engineer II}{Jan 2015 - Dec 2018}
+      \resumeItemListStart
+        \resumeItem{API}
+          {I was on a scrum team that maintained a .NET WebAPI for use by factory floor andriod devices and customers who wanted to make custom interfaces while integrating with our software. Worked on the full stack API, focusing maily on building out the model layer and data business logic.}
+        \resumeItem{Web Team}
+          { I worked on a number of AngularJS Web applications, as well as our .Net MVC B2C web store. Notably, I developed a feature for an app that allowed users to visually create complex, dynamic models based on component entities and map their relationships within the model.}
+        \resumeItem{Other Duties}
+          {I was on the SQL scripts team that handled writing custom Oracle SQL scripts for customers. I maintained the customer portal website, and I also maintained and added features to many of our desktop applications. One of which included an interface to a PLC through modbus that would trigger a print over the local network based on data from the PLC.}
+      \resumeItemListEnd
+
+    \resumeSubheading
+      {RiseThink LLC}{Fresno, CA}
+      {Software Developer}{Aug 2014 - Nov 2014}
+      \resumeItemListStart
+        \resumeItem{Web Development}
+          {I worked as a web developer for Bixly, a child company. This Job mostly entailed working with JavaScript and Python. I did work with AngularJS and the Django framework for Python. In my time there I worked on a number of projects, all but one involved working in teams.}
+      \resumeItemListEnd
+
+      \resumeSubheading
+        {Fresno State University}{Fresno, CA}
+        {Computer Science Tutor}{Oct 2012 - Dec 2013}
+        \resumeItemListStart
+          \resumeItem{Duties}
+            {I was the first Computer Science tutor for the Computer Science department at Fresno State. My responsibilities included helping students with discrete mathematics concepts such as propositional logic and finite state machines, programming concepts and skills, basic data structures and algorithms, and anything else in the three introductory courses in the Computer Science program.}
+        \resumeItemListEnd
+
+  \resumeSubHeadingListEnd
+
+
+%-----------PROJECTS-----------------
+\section{Projects}
+  \resumeSubHeadingListStart
+    \resumeSubItem{D\&D Map Generator}
+      {Web based project written in python and javascript that procedurally generates randomized dungeon maps, populates them and outputs them to a web page.}
+    \resumeSubItem{Grubby App}
+      {Travelling cook app for android that uses a Java web API and MongoDB.}
+    \resumeSubItem{Character Sheet Display}
+      {Small web application for displaying Dungeons and Dragons character sheets written in Elixir using the Phoenix framework and Ecto orm.}
+  \resumeSubHeadingListEnd
+
+%
+%--------PROGRAMMING SKILLS------------
+\section{Programming Skills}
+  \resumeSubHeadingListStart
+    \resumeSubItem{Languages}
+      {C\#, Javascript, SQL, Python}
+    \resumeSubItem{Technologies}
+      {GraphQL, Boomi, React, AngularJS, Azure DevOps}
+  \resumeSubHeadingListEnd
+
+
+%-------------------------------------------
+\end{document}
