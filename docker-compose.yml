@@ -1,27 +1,43 @@
-version: "3.9"
+version: "3"
 services:
   web:
     build: .
+    depends_on:
+      - rabbitmq
     ports:
       - "3000:3000"
     volumes:
       - .:/usr/src/app
     environment:
       - NODE_ENV=development
-    command:
-      sh -c 'npm install ' + 
-      '&& npm i nodemon -g ' + 
-      '&& nodemon -L server.js'
+    command: sh -c 'npm install && npm i nodemon -g && nodemon -L server.js'
     links:
       - rabbitmq
   rabbitmq:
     image: "rabbitmq:3-management"
     hostname: my-rabbit
     volumes:
-      - ./rabbitmq/etc/definitions.json:/etc/rabbitmq/definitions.json
-      - ./rabbitmq/etc/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
       - ./rabbitmq/data:/var/lib/rabbitmq/mnesia/rabbit@my-rabbit
       - ./rabbitmq/logs:/var/log/rabbitmq/log
     ports:
       - 5672:5672
       - 15672:15672
+    healthcheck:
+        test: ["CMD", "curl", "-f", "http://localhost:15672"]
+        interval: 30s
+        timeout: 10s
+        retries: 5
+  latexservice:
+    build: 
+      context: .
+      dockerfile: Dockerfile-latex-service
+    depends_on:
+      - rabbitmq
+    volumes:
+      - .:/usr/src/app
+    environment:
+      - NODE_ENV=development
+    command: sh -c 'npm install && node latex-service.js'
+    links:
+      - rabbitmq
+    

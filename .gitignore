@@ -1,2 +1,4 @@
 /node_modules
+/rabbitmq/data
 package-lock.json
+undefined.*

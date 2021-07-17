@@ -13,16 +13,44 @@ const HOST = '0.0.0.0';
 // App
 const app = express();
 let ch = null;
-amqp.connect('amqp://rabbitmq', function (err, conn) {
-  conn.createChannel(function (err, channel) {
-    ch = channel;
+function start() {
+  amqp.connect('amqp://rabbitmq', async function (err, conn) {
+    if (err) {
+      console.log('---------------------------------');
+      console.error("[AMQP]", err.message);
+      console.log('---------------------------------');
+      return setTimeout(start, 1000);
+    }
+    let error = true;
+    let timernum = 1000;
+    while (error) {
+      try {
+        conn.createChannel(function (err, channel) {
+          ch = channel;
+          console.log('----------------');
+          console.log('latex-server connected!');
+          console.log('----------------');
+        });
+        error = false;
+      }
+      catch (error) {
+        console.log('--------------------------------------------------------');
+        console.log(error);
+        console.log('--------------------------------------------------------');
+        console.log("there was an error, trying again in " + (timernum / 1000) + " seconds...");
+        const snooze = ms => new Promise(resolve => setTimeout(resolve, ms));
+        await snooze(timernum);
+        timernum *= 2;
+      }
+    }
   });
-});
-
+}
+start();
 app.get('/', (req, res) => {
   console.log('hi');
   return res.send('Hello World!');
 });
+
 app.get('/favicon.ico', (req, res) => res.status(204));
 
 app.get('/store/:key', async (req, res) => {
@@ -35,39 +63,55 @@ app.get('/store/:key', async (req, res) => {
 app.post('/pdf', upload.single('file'), async (req, res) => {
 
   var correlationId = generateUuid();
+  await ch.assertQueue('',{durable: true}, function (error, queue) {
 
-  ch.consume('rpc_queue_response', function reply(msg) {
-    if (msg.properties.correlationId != correlationId) {
-      ch.nack(msg);
-      return;
+        console.log('----------------------------------');
+        console.log('returnqueue is: ' + queue.queue);
+        console.log('----------------------------------');
+    if(error){
+      console.log('------------------------------');
+      console.log('error asserting ' + queue.queue);
+      console.log('------------------------------');
     }
-
-    var fileContents = Buffer.from(msg.content.buffer, "base64");
-
-    var readStream = new stream.PassThrough();
-    readStream.end(fileContents);
-
-    res.set('Content-disposition', 'attachment; filename=result.pdf');
-    res.set('Content-Type', 'application/pdf');
-
-    ch.ack(msg);
-    readStream.pipe(res);
-  });
-
-  ch.sendToQueue('rpc_queue',
-    Buffer.from(req.file.buffer), {
-    correlationId: correlationId,
-    replyTo: 'rpc_queue_response'
+    try {
+      ch.consume(queue.queue, function reply(msg) {
+        if (msg.properties.correlationId != correlationId) {
+          ch.nack(msg);
+          return;
+        }
+  
+        var fileContents = Buffer.from(msg.content.buffer, "base64");
+  
+        var readStream = new stream.PassThrough();
+        readStream.end(fileContents);
+  
+        res.set('Content-disposition', 'attachment; filename=result.pdf');
+        res.set('Content-Type', 'application/pdf');
+  
+        ch.ack(msg);
+        readStream.pipe(res);
+      });
+        ch.sendToQueue('rpc_queue',
+          Buffer.from(req.file.buffer), {
+          correlationId: correlationId,
+          replyTo: queue.queue
+        });
+    }
+    catch(error){
+      console.log('-----------------------------');
+      console.log(error);
+      console.log('-----------------------------');
+    }
   });
 });
 
-app.get('/:key', async (req, res) => {
-  const { key } = req.params;
-  //const rawData = await redisClient.getAsync(key);
-  console.log(key);
-  var value = key ? +JSON.parse("").hi : null;
-  return res.json(value);
-});
+// app.get('/:key', async (req, res) => {
+//   const { key } = req.params;
+//   //const rawData = await redisClient.getAsync(key);
+//   console.log(key);
+//   var value = key ? +JSON.parse("").hi : null;
+//   return res.json(value);
+// });
 
 function generateUuid() {
   return Math.random().toString() +
