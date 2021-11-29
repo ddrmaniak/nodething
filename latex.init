@@ -1,6 +1,0 @@
-#!/bin/sh -e
-
-source /etc/envvars
-
-exec 2>&1
-exec node /root/latex-service.js

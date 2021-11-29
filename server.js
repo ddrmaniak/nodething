@@ -19,7 +19,7 @@ function start() {
       console.log('---------------------------------');
       console.error("[AMQP]", err.message);
       console.log('---------------------------------');
-      return setTimeout(start, 1000);
+      return setTimeout(start, 5000);
     }
     let error = true;
     let timernum = 1000;
@@ -61,10 +61,16 @@ app.get('/store/:key', async (req, res) => {
 });
 
 app.post('/pdf', upload.single('file'), async (req, res) => {
+  
+  res.set('Content-disposition', 'attachment; filename=result.pdf');
+  res.set('Content-Type', 'application/pdf');
 
+  enqueue(req, res);
+});
+
+async function enqueue(req, res){
   var correlationId = generateUuid();
   await ch.assertQueue('',{durable: true}, function (error, queue) {
-
         console.log('----------------------------------');
         console.log('returnqueue is: ' + queue.queue);
         console.log('----------------------------------');
@@ -85,9 +91,6 @@ app.post('/pdf', upload.single('file'), async (req, res) => {
         var readStream = new stream.PassThrough();
         readStream.end(fileContents);
   
-        res.set('Content-disposition', 'attachment; filename=result.pdf');
-        res.set('Content-Type', 'application/pdf');
-  
         ch.ack(msg);
         readStream.pipe(res);
       });
@@ -103,15 +106,7 @@ app.post('/pdf', upload.single('file'), async (req, res) => {
       console.log('-----------------------------');
     }
   });
-});
-
-// app.get('/:key', async (req, res) => {
-//   const { key } = req.params;
-//   //const rawData = await redisClient.getAsync(key);
-//   console.log(key);
-//   var value = key ? +JSON.parse("").hi : null;
-//   return res.json(value);
-// });
+}
 
 function generateUuid() {
   return Math.random().toString() +

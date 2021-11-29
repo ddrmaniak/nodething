@@ -4,13 +4,15 @@ var amqp = require('amqplib/callback_api');
 const { _, execSync } = require("child_process");
 var fs = require("fs");
 let ch = null;
+start();
+
 function start(){
   amqp.connect('amqp://rabbitmq', function (err, connection) {
     if (err) {
       console.log('---------------------------------');
       console.error("[AMQP]", err.message);
       console.log('---------------------------------');
-      return setTimeout(start, 1000);
+      return setTimeout(start, 5000);
     }
     connection.createChannel(function(error1, channel) {
       if (error1) {
@@ -41,7 +43,6 @@ function start(){
     });
   });
 }
-start();
 
 function getLatexData(data, guid) {
   fs.writeFileSync(guid + '.tex', data);

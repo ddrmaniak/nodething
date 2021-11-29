@@ -1,18 +1,5 @@
 version: "3"
 services:
-  web:
-    build: .
-    depends_on:
-      - rabbitmq
-    ports:
-      - "3000:3000"
-    volumes:
-      - .:/usr/src/app
-    environment:
-      - NODE_ENV=development
-    command: sh -c 'npm install && npm i nodemon -g && nodemon -L server.js'
-    links:
-      - rabbitmq
   rabbitmq:
     image: "rabbitmq:3-management"
     hostname: my-rabbit
@@ -27,6 +14,19 @@ services:
         interval: 30s
         timeout: 10s
         retries: 5
+  web:
+    build: .
+    depends_on:
+      - rabbitmq
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/usr/src/app
+    environment:
+      - NODE_ENV=development
+    command: sh -c 'npm install && npm i nodemon -g && nodemon -L server.js'
+    links:
+      - rabbitmq
   latexservice:
     build: 
       context: .

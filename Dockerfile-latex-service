@@ -7,7 +7,8 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 RUN apk update 
-RUN apk add texlive-full
+RUN apk add texlive
+RUN apk add texmf-dist-latexextra
 RUN apk add npm
 RUN npm install
 RUN npm add amqplib
