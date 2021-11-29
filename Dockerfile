@@ -8,6 +8,7 @@ COPY package*.json ./
 
 RUN npm install 
 RUN npm install amqplib
+RUN npm install uuid
 #RUN apt-get update 
 #RUN apt-get --no-install-recommends install -y texlive-full
 # If you are building your code for production
