@@ -1,8 +1,9 @@
 <html>
 <body>
   <h1>LaTeX thing!</h1>
-  <form action="submitpdf">
-    <textbox name="text"></textbox>
+  <form action="/pdf" method="POST" enctype="multipart/form-data">
+    <input type="file" name="file">
+    <div><button type="submit">Convert!</button></div>
   </form>
 </body>
 </html>

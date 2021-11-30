@@ -15,8 +15,7 @@ const app = express();
 let ch = null;
 rabbit.start('latex-server');
 app.get('/', (req, res) => {
-  console.log('hi');
-  return res.send('Hello World!');
+  return res.sendFile(__dirname + '/nodesubmit.html');
 });
 
 app.get('/favicon.ico', (req, res) => res.status(204));
@@ -32,7 +31,7 @@ app.post('/pdf', upload.single('file'), async (req, res) => {
   
   res.set('Content-disposition', 'attachment; filename=result.pdf');
   res.set('Content-Type', 'application/pdf');
-
+  if(!req.file) readStream.pipe(res);
   rabbit.push('rpc_queue', req, (msg)=>{
     var fileContents = Buffer.from(msg.buffer, "base64");
     

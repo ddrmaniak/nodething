@@ -51,7 +51,7 @@ let push = async function (queueName, req, callback) {
       });
       ch.sendToQueue(queueName,
         Buffer.from(req.file.buffer), {
-        correlationId: correlationId,
+        correlationId: correlationId, 
         replyTo: queue.queue
       });
     }
